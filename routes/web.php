@@ -11,12 +11,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Dashboard route for authenticated users
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
-// User product routes (authenticated users can view products and add comments)
 Route::middleware(['auth'])->group(function () {
     Route::get('/products', [UserProductController::class, 'index'])->name('user.products.index');
     Route::get('/products/{id}', [UserProductController::class, 'show'])->name('user.products.show');
@@ -24,7 +22,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
-// Admin routes (only admins can manage products)
 Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products.index');
     Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
@@ -35,7 +32,6 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
-// Profile routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

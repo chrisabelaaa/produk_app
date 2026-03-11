@@ -13,16 +13,12 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         
-        // Get latest products
         $latestProducts = Produk::latest()->take(6)->get();
         
-        // Get user's comments count
         $userCommentsCount = Comment::where('user_id', $user->id)->count();
         
-        // Get total products
         $totalProducts = Produk::count();
         
-        // Get user's recent comments
         $recentComments = Comment::where('user_id', $user->id)
             ->with('produk')
             ->latest()

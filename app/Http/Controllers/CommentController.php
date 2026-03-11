@@ -28,7 +28,6 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
         
-        // Check if user owns this comment or is admin
         if ($comment->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
             abort(403);
         }

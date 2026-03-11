@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $products = Produk::all();
@@ -22,9 +19,6 @@ class ProductController extends Controller
         return view('products.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -73,7 +67,6 @@ class ProductController extends Controller
         $data = $request->only(['nama_produk', 'deskripsi', 'harga', 'stok']);
 
         if ($request->hasFile('gambar')) {
-            // Delete old image if exists
             if ($product->gambar) {
                 Storage::disk('public')->delete($product->gambar);
             }
@@ -85,9 +78,6 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diupdate!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $product = Produk::findOrFail($id);
